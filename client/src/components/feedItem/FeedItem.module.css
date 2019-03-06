@@ -1,0 +1,32 @@
+.container {
+  width: 624px;
+  padding: 6px;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid grey;
+}
+.img {
+  width: 306px;
+  opacity: 1;
+  transition: 0.3s;
+  -webkit-transition: 0.3s;
+}
+
+.img:hover {
+  opacity: 0.8;
+}
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  width: 306px;
+}
+
+.title {
+  transition: 0.3s;
+  -webkit-transition: 0.3s;
+}
+
+.title:hover {
+  color: darkblue;
+  text-decoration: underline;
+}

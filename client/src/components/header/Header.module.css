@@ -1,0 +1,16 @@
+.container {
+  width: 100vw;
+  height: 60px;
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 254px auto;
+  grid-template-rows: 1fr 1fr;
+  border-bottom: 1px solid grey;
+}
+
+.title {
+  margin: 0px;
+  width: 246.75px;
+  grid-column-start: 1;
+  grid-row-start: 2;
+}

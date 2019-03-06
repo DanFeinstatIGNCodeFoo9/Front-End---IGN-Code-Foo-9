@@ -6,7 +6,7 @@ class FeedItem extends PureComponent {
     return (
       <div className={styles.container}>
         <img
-          classname={styles.img}
+          className={styles.img}
           src={this.props.img}
           alt="article thumbnail"
         />
@@ -15,7 +15,9 @@ class FeedItem extends PureComponent {
             <span className={styles.date}>{this.props.date}</span> -{" "}
             <span className={styles.comments}>{this.props.commentNumber}</span>
           </div>
-          <div className={styles.title}>{this.props.title}</div>
+          <div className={styles.title}>
+            {this.props.title ? this.props.title : this.props.description}
+          </div>
         </div>
       </div>
     );

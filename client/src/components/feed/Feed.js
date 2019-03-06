@@ -15,21 +15,21 @@ class Feed extends Component {
       videos: [],
     };
     //bind scroll event handler
-    // window.onscroll = () => {
-    //   const {
-    //     loadArticles,
-    //     state: { error, isLoading, hasMore },
-    //   } = this;
+    window.onscroll = () => {
+      const {
+        loadArticles,
+        state: { error, isLoading, hasMore },
+      } = this;
 
-    //   if (error || isLoading || !hasMore) return;
+      if (error || isLoading || !hasMore) return;
 
-    //   if (
-    //     window.innerHeight + documentElement.scrollTop ===
-    //     document.documentElement.offsetHeight
-    //   ) {
-    //     loadArticles();
-    //   }
-    // };
+      if (
+        window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.offsetHeight - 60
+      ) {
+        loadArticles();
+      }
+    };
   }
 
   componentWillMount() {
@@ -37,10 +37,15 @@ class Feed extends Component {
   }
   loadArticles = () => {
     this.setState({ isLoading: true }, () => {
+      //The api given returns a access-cross-origin-header error.
+      //Therefore I'm using a proxy to convince the api it is sending the data to itself.
+      //I know this is a bit hacky and if I have time after building all the projects I'll try for a more elegant solution.
       const proxyurl = "https://cors-anywhere.herokuapp.com/";
       fetch(
         proxyurl +
-          `https://ign-apis.herokuapp.com/content?startIndex=${0}&count=20`
+          `https://ign-apis.herokuapp.com/content?startIndex=${
+            this.state.startIndex
+          }&count=20`
       )
         .then(res => res.json())
         .then(results => {
@@ -90,6 +95,7 @@ class Feed extends Component {
               date={content.publishDate}
               img={content.img}
               title={content.title}
+              description={content.description}
             />
           </Fragment>
         ))}
