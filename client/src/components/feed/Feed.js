@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import FeedItem from "../feedItem/FeedItem";
+import moment from "moment";
 
 class Feed extends Component {
   constructor(props) {
@@ -9,6 +10,7 @@ class Feed extends Component {
       error: false,
       hasMore: true,
       isLoading: false,
+      filter: `content`,
       startIndex: 0,
       content: [],
       articles: [],
@@ -35,6 +37,25 @@ class Feed extends Component {
   componentWillMount() {
     this.loadArticles();
   }
+
+  fetchCommentNumber = () => {
+    let commentsurl = `https://ign-apis.herokuapp.com/comments?ids=`;
+    for (let i = this.state.startIndex - 20; i < this.state.startIndex; i++) {
+      if (i + 1 === this.state.startIndex) {
+        commentsurl += `${this.state.content[i].id}`;
+      } else {
+        commentsurl += `${this.state.content[i].id},`;
+      }
+    }
+    console.log(commentsurl);
+    const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    fetch(proxyurl + commentsurl)
+      .then(res => res.json())
+      .then(results => {
+        console.log(results.content);
+      });
+  };
+
   loadArticles = () => {
     this.setState({ isLoading: true }, () => {
       //The api given returns a access-cross-origin-header error.
@@ -49,13 +70,35 @@ class Feed extends Component {
       )
         .then(res => res.json())
         .then(results => {
+          moment.updateLocale("en", {
+            relativeTime: {
+              future: "in %s",
+              past: "%s",
+              s: function(number, withoutSuffix, key, isFuture) {
+                return number + "s";
+              },
+              m: "1m",
+              mm: function(number, withoutSuffix, key, isFuture) {
+                return number + "m";
+              },
+              h: "1h",
+              hh: "%dh",
+              d: "1d",
+              dd: "%dd",
+              M: "1m",
+              MM: "%dm",
+              y: "1y",
+              yy: "%dy",
+            },
+          });
           const newContent = results.data.map(content => ({
             id: content.contentId,
             contentType: content.contentType,
             img: content.thumbnails[0].url,
             title: content.metadata.headline,
             description: content.metadata.description,
-            publishDate: content.metadata.publishDate,
+            publishDate: moment(content.metadata.publishDate).fromNow(),
+            comments: null,
           }));
           let nextArticles = [];
           let nextVideos = [];
@@ -67,15 +110,20 @@ class Feed extends Component {
             }
           }
 
-          this.setState(state => ({
-            hasMore:
-              this.state.articles.length + this.state.videos.length < 300,
-            isLoading: false,
-            startIndex: state.startIndex + 20,
-            content: [...state.content, ...newContent],
-            articles: [...state.articles, ...nextArticles],
-            videos: [...state.videos, ...nextVideos],
-          }));
+          this.setState(
+            state => ({
+              hasMore:
+                this.state.articles.length + this.state.videos.length < 300,
+              isLoading: false,
+              startIndex: state.startIndex + 20,
+              content: [...state.content, ...newContent],
+              articles: [...state.articles, ...nextArticles],
+              videos: [...state.videos, ...nextVideos],
+            }),
+            () => {
+              this.fetchCommentNumber();
+            }
+          );
         })
         .catch(err => {
           this.setState({
@@ -85,22 +133,54 @@ class Feed extends Component {
         });
     });
   };
+
   render() {
-    const { error, hasMore, isLoading, content, articles, videos } = this.state;
+    const {
+      error,
+      hasMore,
+      isLoading,
+      filter,
+      content,
+      articles,
+      videos,
+    } = this.state;
     return (
       <div>
-        {content.map(content => (
-          <Fragment key={content.id}>
-            <FeedItem
-              date={content.publishDate}
-              img={content.img}
-              title={content.title}
-              description={content.description}
-            />
-          </Fragment>
-        ))}
+        {filter === `content`
+          ? content.map(content => (
+              <Fragment key={content.id}>
+                <FeedItem
+                  date={content.publishDate}
+                  img={content.img}
+                  title={content.title}
+                  description={content.description}
+                />
+              </Fragment>
+            ))
+          : filter === `articles`
+          ? articles.map(article => (
+              <Fragment key={article.id}>
+                <FeedItem
+                  date={article.publishDate}
+                  img={article.img}
+                  title={article.title}
+                  description={article.description}
+                />
+              </Fragment>
+            ))
+          : videos.map(video => (
+              <Fragment key={video.id}>
+                <FeedItem
+                  date={video.publishDate}
+                  img={video.img}
+                  title={video.title}
+                  description={video.description}
+                />
+              </Fragment>
+            ))}
         {error && <div style={{ color: "#900" }}>{error}</div>}
         {isLoading && <div>Loading...</div>}
+        {!hasMore && <div>No more content!</div>}
       </div>
     );
   }
