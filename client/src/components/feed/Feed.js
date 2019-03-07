@@ -15,6 +15,7 @@ class Feed extends Component {
       content: [],
       articles: [],
       videos: [],
+      comments: [],
     };
     //bind scroll event handler
     window.onscroll = () => {
@@ -34,7 +35,7 @@ class Feed extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.loadArticles();
   }
 
@@ -52,7 +53,10 @@ class Feed extends Component {
     fetch(proxyurl + commentsurl)
       .then(res => res.json())
       .then(results => {
-        console.log(results.content);
+        const newComments = results.content;
+        this.setState(state => ({
+          comments: [...state.comments, ...newComments],
+        }));
       });
   };
 
@@ -143,6 +147,7 @@ class Feed extends Component {
       content,
       articles,
       videos,
+      comments,
     } = this.state;
     return (
       <div>
@@ -150,10 +155,12 @@ class Feed extends Component {
           ? content.map(content => (
               <Fragment key={content.id}>
                 <FeedItem
+                  id={content.id}
                   date={content.publishDate}
                   img={content.img}
                   title={content.title}
                   description={content.description}
+                  comments={comments}
                 />
               </Fragment>
             ))
@@ -161,20 +168,24 @@ class Feed extends Component {
           ? articles.map(article => (
               <Fragment key={article.id}>
                 <FeedItem
+                  id={content.id}
                   date={article.publishDate}
                   img={article.img}
                   title={article.title}
                   description={article.description}
+                  comments={comments}
                 />
               </Fragment>
             ))
           : videos.map(video => (
               <Fragment key={video.id}>
                 <FeedItem
+                  id={content.id}
                   date={video.publishDate}
                   img={video.img}
                   title={video.title}
                   description={video.description}
+                  comments={comments}
                 />
               </Fragment>
             ))}
