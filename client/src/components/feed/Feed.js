@@ -10,7 +10,6 @@ class Feed extends Component {
       error: false,
       hasMore: true,
       isLoading: false,
-      filter: `content`,
       startIndex: 0,
       content: [],
       articles: [],
@@ -143,7 +142,6 @@ class Feed extends Component {
       error,
       hasMore,
       isLoading,
-      filter,
       content,
       articles,
       videos,
@@ -151,20 +149,20 @@ class Feed extends Component {
     } = this.state;
     return (
       <div>
-        {filter === `content`
-          ? content.map(content => (
-              <Fragment key={content.id}>
+        {this.props.filter === `videos`
+          ? videos.map(video => (
+              <Fragment key={video.id}>
                 <FeedItem
                   id={content.id}
-                  date={content.publishDate}
-                  img={content.img}
-                  title={content.title}
-                  description={content.description}
+                  date={video.publishDate}
+                  img={video.img}
+                  title={video.title}
+                  description={video.description}
                   comments={comments}
                 />
               </Fragment>
             ))
-          : filter === `articles`
+          : this.props.filter === `articles`
           ? articles.map(article => (
               <Fragment key={article.id}>
                 <FeedItem
@@ -177,14 +175,14 @@ class Feed extends Component {
                 />
               </Fragment>
             ))
-          : videos.map(video => (
-              <Fragment key={video.id}>
+          : content.map(content => (
+              <Fragment key={content.id}>
                 <FeedItem
                   id={content.id}
-                  date={video.publishDate}
-                  img={video.img}
-                  title={video.title}
-                  description={video.description}
+                  date={content.publishDate}
+                  img={content.img}
+                  title={content.title}
+                  description={content.description}
                   comments={comments}
                 />
               </Fragment>
