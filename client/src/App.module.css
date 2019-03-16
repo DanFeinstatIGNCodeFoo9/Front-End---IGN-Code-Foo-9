@@ -3,8 +3,18 @@
 }
 
 .contentContainer {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: ". nav feed .";
+}
+
+.navbar {
+  grid-area: nav;
+}
+
+.feed {
+  grid-area: feed;
 }
 
 /* .App-header {

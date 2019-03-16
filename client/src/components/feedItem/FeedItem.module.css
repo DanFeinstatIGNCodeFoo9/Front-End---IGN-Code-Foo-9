@@ -1,12 +1,42 @@
 .container {
-  width: 624px;
+  max-width: 624px;
   padding: 6px;
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 50% min-content min-content min-content min-content 1fr max-content;
+  grid-template-rows: min-content 1fr;
+  grid-gap: 10px;
+  grid-template-areas:
+    "photo date dash cci comments . ."
+    "photo title title title title title .";
   border-bottom: 1px solid grey;
 }
+
+@media (max-width: 600px) {
+  .container {
+    grid-template-columns: min-content 1fr 1fr max-content;
+    grid-template-rows: min-content 1fr 1fr;
+
+    grid-template-areas:
+      "photo photo photo photo"
+      "title title title title"
+      "date dash cci comments";
+  }
+}
+
+.dash {
+  grid-area: dash;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.commentCountIcon {
+  grid-area: cci;
+}
+
 .img {
-  width: 306px;
+  grid-area: photo;
+  width: 100%;
+  border-radius: 2px;
   opacity: 1;
   transition: 0.3s;
   -webkit-transition: 0.3s;
@@ -15,13 +45,23 @@
 .img:hover {
   opacity: 0.8;
 }
-.contentContainer {
+/* .contentContainer {
   display: flex;
   flex-direction: column;
   width: 306px;
+} */
+
+.date {
+  grid-area: date;
+  color: rgb(191, 19, 19);
+}
+.comments {
+  grid-area: comments;
+  color: rgb(191, 19, 19);
 }
 
 .title {
+  grid-area: title;
   transition: 0.3s;
   -webkit-transition: 0.3s;
 }
