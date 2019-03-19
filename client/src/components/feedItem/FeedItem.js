@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import styles from "./FeedItem.module.css";
+import stylesTwo from "./VidDur.module.css";
 import CommentCountIcon from "../icons/CommentCountIcon";
+import VidDur from "./VidDur";
+import placeholderImg from "./img/IGNnews.png";
 
 class FeedItem extends Component {
   constructor(props) {
@@ -51,11 +54,25 @@ class FeedItem extends Component {
   render() {
     return (
       <div className={styles.container}>
-        <img
+        {/* <img
           className={styles.img}
-          src={this.props.img.url !== undefined ? this.props.img.url : null}
+          src={
+            this.props.img !== `placeholder` ? this.props.img : placeholderImg
+          }
           alt="article thumbnail"
-        />
+        /> */}
+        <div
+          className={`${styles.img} ${stylesTwo.grid}`}
+          style={{
+            backgroundImage: `url(${
+              this.props.img !== `placeholder` ? this.props.img : placeholderImg
+            })`,
+          }}
+        >
+          {this.props.contentType === `video` && (
+            <VidDur duration={this.props.duration} />
+          )}
+        </div>
 
         <span className={styles.date}>{this.props.date}</span>
         <span className={styles.dash}> - </span>

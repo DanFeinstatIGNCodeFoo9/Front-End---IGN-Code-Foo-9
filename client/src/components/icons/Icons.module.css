@@ -1,8 +1,15 @@
 .articles {
   width: 20px;
+  height: 20px;
 }
 
 .filters {
   margin-right: 5px;
   margin-left: 20px;
+  fill: #a4a4a4;
+  pointer-events: none;
+}
+
+.btnHovered {
+  fill: black;
 }

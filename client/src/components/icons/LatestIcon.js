@@ -1,11 +1,17 @@
 import React from "react";
 import styles from "./Icons.module.css";
 
-const LatestIcon = () => {
+const LatestIcon = props => {
   return (
     <svg
+      onClick={props.filterFunction}
+      data-name={`latest`}
       xmlns="http://www.w3.org/2000/svg"
-      className={styles.filters}
+      className={
+        props.hovered === "latest"
+          ? `${styles.filters} ${styles.btnHovered}`
+          : styles.filters
+      }
       width="24"
       height="24"
       viewBox="0 0 24 24"

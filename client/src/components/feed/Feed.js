@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Transition, animated, config } from "react-spring/renderprops";
+import { Transition, config } from "react-spring/renderprops";
 
 import FeedItem from "../feedItem/FeedItem";
 import moment from "moment";
@@ -24,18 +24,19 @@ class Feed extends Component {
     };
 
     window.onscroll = () => {
-      const {
-        loadArticles,
-        state: { error, isLoading, hasMore },
-      } = this;
+      //   const {
+      //     loadArticles,
+      //     state: { error, isLoading, hasMore },
+      //   } = this;
 
-      if (error || isLoading || !hasMore) return;
+      if (this.state.error || this.state.isLoading || !this.state.hasMore)
+        return;
 
       if (
         window.innerHeight + document.documentElement.scrollTop >=
         document.documentElement.offsetHeight - 60
       ) {
-        loadArticles();
+        this.loadArticles();
       }
     };
   }
@@ -83,8 +84,20 @@ class Feed extends Component {
       });
   };
 
+  reformatDuration = dur => {
+    let remainder = dur % 60;
+    let min = (dur - remainder) / 60;
+    if (remainder.length < 2) {
+      return `${min}:0${remainder}`;
+    } else {
+      return `${min}:${remainder}`;
+    }
+  };
+
   loadArticles = () => {
-    if (!this.state.fetchingComments) {
+    if (this.state.fetchingComments || this.state.isLoading) {
+      return;
+    } else {
       this.setState({ isLoading: true }, () => {
         //The api given returns a access-cross-origin-header error.
         //Therefore I'm using a proxy to convince the api it is sending the data to itself.
@@ -131,9 +144,14 @@ class Feed extends Component {
             let newContent = results.data.map(content => ({
               id: content.contentId,
               contentType: content.contentType,
-              img: content.thumbnails[0],
+              img: content.thumbnails[0].url
+                ? content.thumbnails[0].url
+                : `placeholder`,
               title: content.metadata.headline,
-              description: content.metadata.description,
+              description: content.metadata.title,
+              duration: content.metadata.duration
+                ? this.reformatDuration(content.metadata.duration)
+                : null,
               //   publishDate: content.metadata.publishDate,
               publishDate: moment(content.metadata.publishDate).fromNow(),
               comments: null,
@@ -174,44 +192,7 @@ class Feed extends Component {
   };
 
   render() {
-    const {
-      error,
-      hasMore,
-      isLoading,
-      content,
-      articles,
-      videos,
-      comments,
-    } = this.state;
     return (
-      //     <Transition
-      //     items={this.props.filter}
-      //     from={{ opacity: 0 }}
-      //     enter={{ opacity: 1 }}
-      //     leave={{ opacity: 0 }}
-      //     config={config.stiff}
-      //   >
-      //     {show =>
-      //       show &&
-      //       (props => (
-      //         <div style={props}>
-      //           {this.state.toDisplay.map(video => (
-      //             <Fragment key={video.id}>
-      //               <FeedItem
-      //                 id={video.id}
-      //                 date={video.publishDate}
-      //                 img={video.img}
-      //                 title={video.title}
-      //                 description={video.description}
-      //                 comments={comments}
-      //                 filter={this.props.filter}
-      //               />
-      //             </Fragment>
-      //           ))}
-      //         </div>
-      //       ))
-      //     }
-      //   </Transition>
       <div>
         {this.props.filter === `videos` ? (
           <Transition
@@ -229,11 +210,13 @@ class Feed extends Component {
                     <Fragment key={video.id}>
                       <FeedItem
                         id={video.id}
+                        contentType={video.contentType}
                         date={video.publishDate}
                         img={video.img}
                         title={video.title}
                         description={video.description}
-                        comments={comments}
+                        duration={video.duration}
+                        comments={this.state.comments}
                         filter={this.props.filter}
                       />
                     </Fragment>
@@ -258,11 +241,12 @@ class Feed extends Component {
                     <Fragment key={article.id}>
                       <FeedItem
                         id={article.id}
+                        contentType={article.contentType}
                         date={article.publishDate}
                         img={article.img}
                         title={article.title}
                         description={article.description}
-                        comments={comments}
+                        comments={this.state.comments}
                         filter={this.props.filter}
                       />
                     </Fragment>
@@ -287,11 +271,13 @@ class Feed extends Component {
                     <Fragment key={content.id}>
                       <FeedItem
                         id={content.id}
+                        contentType={content.contentType}
+                        duration={content.duration}
                         date={content.publishDate}
                         img={content.img}
                         title={content.title}
                         description={content.description}
-                        comments={comments}
+                        comments={this.state.comments}
                         filter={this.props.filter}
                       />
                     </Fragment>
@@ -301,9 +287,11 @@ class Feed extends Component {
             }
           </Transition>
         )}
-        {error && <div style={{ color: "#900" }}>{error}</div>}
-        {isLoading && <div>Loading...</div>}
-        {!hasMore && <div>No more content!</div>}
+        {this.state.error && (
+          <div style={{ color: "#900" }}>{this.state.error}</div>
+        )}
+        {this.state.isLoading && <div>Loading...</div>}
+        {!this.state.hasMore && <div>No more content!</div>}
       </div>
     );
   }

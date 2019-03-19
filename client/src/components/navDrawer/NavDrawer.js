@@ -15,9 +15,15 @@ class NavDrawer extends PureComponent {
               : styles.filterOption
           }
           data-name={`latest`}
+          onMouseEnter={this.props.targetHovered}
+          onMouseLeave={this.props.clearHovered}
           onClick={this.props.filterFunction}
         >
-          <LatestIcon /> Latest
+          <LatestIcon
+            hovered={this.props.hovered}
+            filterFunction={this.props.filterFunction}
+          />{" "}
+          {this.props.width > 600 ? `Latest` : null}
         </div>
         <div
           className={
@@ -26,9 +32,17 @@ class NavDrawer extends PureComponent {
               : styles.filterOption
           }
           data-name={`videos`}
+          onMouseEnter={this.props.targetHovered}
+          onMouseLeave={this.props.clearHovered}
           onClick={this.props.filterFunction}
         >
-          <VideosIcon /> Videos
+          <VideosIcon
+            hovered={this.props.hovered}
+            // targetHovered={this.props.targetHovered}
+            // clearHovered={this.props.clearHovered}
+            filterFunction={this.props.filterFunction}
+          />{" "}
+          {this.props.width > 600 ? `Videos` : null}
         </div>
         <div
           className={
@@ -37,9 +51,17 @@ class NavDrawer extends PureComponent {
               : styles.filterOption
           }
           data-name={`articles`}
+          onMouseEnter={this.props.targetHovered}
+          onMouseLeave={this.props.clearHovered}
           onClick={this.props.filterFunction}
         >
-          <ArticlesIcon /> Articles
+          <ArticlesIcon
+            hovered={this.props.hovered}
+            // targetHovered={this.props.targetHovered}
+            // clearHovered={this.props.clearHovered}
+            filterFunction={this.props.filterFunction}
+          />{" "}
+          {this.props.width > 600 ? `Articles` : null}
         </div>
       </div>
     );

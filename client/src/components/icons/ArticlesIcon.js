@@ -1,10 +1,16 @@
 import React from "react";
 import styles from "./Icons.module.css";
-const ArticlesIcon = () => {
+const ArticlesIcon = props => {
   return (
     <svg
+      onClick={props.filterFunction}
+      data-name={`articles`}
       id="Layer_1"
-      className={`${styles.articles} ${styles.filters}`}
+      className={
+        props.hovered === "articles"
+          ? `${styles.filters} ${styles.btnHovered} ${styles.articles}`
+          : `${styles.filters} ${styles.articles}`
+      }
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 512 512"
     >

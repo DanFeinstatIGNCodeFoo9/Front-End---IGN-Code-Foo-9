@@ -1,0 +1,20 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.container {
+  padding: 4px;
+  margin-bottom: 6px;
+  margin-left: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 4px;
+  background-color: rgb(183, 37, 40);
+  grid-column-start: 1;
+  grid-row-start: 3;
+  color: white;
+}
