@@ -87,7 +87,7 @@ class Feed extends Component {
   reformatDuration = dur => {
     let remainder = dur % 60;
     let min = (dur - remainder) / 60;
-    if (remainder.length < 2) {
+    if (remainder < 10) {
       return `${min}:0${remainder}`;
     } else {
       return `${min}:${remainder}`;

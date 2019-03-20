@@ -1,17 +1,22 @@
 import React from "react";
+import styles from "./Icons.module.css";
+
+//took the svg icon from the ign website's html, converted it to a react component.
 
 const CommentCountIcon = () => {
   return (
     <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
       xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
     >
-      <path fill="none" d="M0 0h24v24H0V0z" />
       <path
-        fill="#bf1313"
-        d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"
+        className={styles.commentCount}
+        d="M7.538 11.528l-3.14 2.048a.5.5 0 0 1-.773-.419v-1.993a4.375 4.375 0 0 1 1.749-8.383h5.252a4.374 4.374 0 1 1 0 8.747H7.538z"
+        strokeWidth="2"
+        fill="none"
+        fillRule="evenodd"
       />
     </svg>
   );
