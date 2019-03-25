@@ -4,7 +4,7 @@ Front End - IGN Code Foo 9
 
 This project showcases a responsive front end news feed build in react and leveraging the react-spring library for physics based spring animations.
 
-#Getting Started#
+##Getting Started
 
 Clone this repository to your machine.
 
