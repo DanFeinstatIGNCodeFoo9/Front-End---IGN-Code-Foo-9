@@ -34,6 +34,7 @@ class Feed extends Component {
       }
     };
   }
+  //scroll listener need to be refactored due to inconsistency in mobile safari.
 
   componentDidMount() {
     this.loadArticles();
