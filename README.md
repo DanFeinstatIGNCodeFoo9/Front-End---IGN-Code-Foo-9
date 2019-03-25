@@ -4,6 +4,8 @@ Front End - IGN Code Foo 9
 
 This project showcases a responsive front end news feed build in react and leveraging the react-spring library for physics based spring animations.
 
+In case there's an issue with building and compiling the code, I've included a link to a live demo here: https://floating-forest-71981.herokuapp.com/
+
 ##Getting Started
 
 Clone this repository to your machine.
