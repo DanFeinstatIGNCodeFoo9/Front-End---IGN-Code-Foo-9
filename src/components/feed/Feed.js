@@ -13,8 +13,6 @@ class Feed extends Component {
       hasMore: true,
       isLoading: false,
       startIndex: 0,
-      //   startIndexArticles: 0,
-      //   startIndexVideos: 0,
       content: [],
       articles: [],
       videos: [],
@@ -24,11 +22,6 @@ class Feed extends Component {
     };
 
     window.onscroll = () => {
-      //   const {
-      //     loadArticles,
-      //     state: { error, isLoading, hasMore },
-      //   } = this;
-
       if (this.state.error || this.state.isLoading || !this.state.hasMore)
         return;
 
@@ -116,7 +109,6 @@ class Feed extends Component {
               this.state.startIndex
             }&count=20`
         )
-          // .then(res => console.log(res));
           .then(res => res.json())
           .then(results => {
             console.log(results.data);
@@ -153,7 +145,6 @@ class Feed extends Component {
               duration: content.metadata.duration
                 ? this.reformatDuration(content.metadata.duration)
                 : null,
-              //   publishDate: content.metadata.publishDate,
               publishDate: moment(content.metadata.publishDate).fromNow(),
               comments: null,
             }));

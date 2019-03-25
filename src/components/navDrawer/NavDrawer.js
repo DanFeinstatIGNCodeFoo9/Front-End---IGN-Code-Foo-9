@@ -38,8 +38,6 @@ class NavDrawer extends PureComponent {
         >
           <VideosIcon
             hovered={this.props.hovered}
-            // targetHovered={this.props.targetHovered}
-            // clearHovered={this.props.clearHovered}
             filterFunction={this.props.filterFunction}
           />{" "}
           {this.props.width > 600 ? `Videos` : null}
@@ -57,8 +55,6 @@ class NavDrawer extends PureComponent {
         >
           <ArticlesIcon
             hovered={this.props.hovered}
-            // targetHovered={this.props.targetHovered}
-            // clearHovered={this.props.clearHovered}
             filterFunction={this.props.filterFunction}
           />{" "}
           {this.props.width > 600 ? `Articles` : null}

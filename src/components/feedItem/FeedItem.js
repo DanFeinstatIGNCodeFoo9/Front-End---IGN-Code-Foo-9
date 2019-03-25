@@ -17,8 +17,6 @@ class FeedItem extends Component {
     this.updateCommentCount();
   }
   componentDidUpdate(prevState) {
-    // console.log(this.props.img.url);
-    // console.log(prevState);
     if (this.props.comments && this.props.comments !== prevState.comments) {
       let newCommentCount = 0;
       for (let i = 0; i < this.props.comments.length; i++) {
@@ -26,7 +24,7 @@ class FeedItem extends Component {
           newCommentCount += this.props.comments[i].count;
         }
       }
-      //   console.log("function running test");
+
       if (newCommentCount > 0) {
         this.setState({
           commentCount: newCommentCount,

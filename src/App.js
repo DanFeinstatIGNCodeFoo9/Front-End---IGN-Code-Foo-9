@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-// import { Spring, Transition, animated, config } from "react-spring/renderprops";
 import Feed from "./components/feed/Feed";
 import Header from "./components/header/Header";
 import NavDrawer from "./components/navDrawer/NavDrawer";
-// import MobileNav from "./components/navDrawer/MobileNav";
 import styles from "./App.module.css";
 
 class App extends Component {
@@ -104,10 +102,7 @@ class App extends Component {
           <Header className={styles.header} />
           <div className={styles.contentContainer}>
             <div />
-            {/* <MobileNav
-            filterFunction={this.selectFilterOption}
-            filter={this.state.filter}
-          /> */}
+
             <NavDrawer
               className={styles.navbar}
               filterFunction={this.selectFilterOption}
@@ -117,19 +112,6 @@ class App extends Component {
               clearHovered={this.clearHovered}
               width={this.state.width}
             />
-            {/* <Transition
-            native
-            className={styles.feed}
-            items={this.state.filter}
-            from={{ opacity: 0 }}
-            enter={{ opacity: 1 }}
-            leave={{ opacity: 0 }}
-            config={config.stiff}
-          >
-            {show =>
-              show &&
-              (props => (
-                <animated.div style={props}> */}
             <Feed
               filter={this.state.filter}
               latFilter={this.state.latest}
@@ -137,10 +119,6 @@ class App extends Component {
               artFilter={this.state.articles}
               className={styles.feed}
             />
-            {/* </animated.div>
-              ))
-            }
-          </Transition>*/}
           </div>
         </div>
       </div>

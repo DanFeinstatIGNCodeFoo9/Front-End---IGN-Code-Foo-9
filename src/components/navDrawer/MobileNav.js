@@ -4,6 +4,8 @@ import LatestIcon from "../icons/LatestIcon";
 import VideosIcon from "../icons/VideosIcon";
 import ArticlesIcon from "../icons/ArticlesIcon";
 
+//Not in use
+
 class MobileNav extends PureComponent {
   render() {
     return (
